@@ -147,16 +147,18 @@ class block():
    def extend(self,sequence):
       self.code.extend(sequence)
    def __str__(self):
+      head=str(self.head)+' ' if self.head is not None else ''
+      tail=' '+str(self.tail) if self.tail is not None else ''
       if (self.indent is not None) and (self.indent > 0):
          indentStr = indentChar*self.indent
-         text=indentStr+'{\n'
+         text=indentStr+'%s{\n'%(head)
          lines=[]
          for item in self.code.elements:
             if hasattr(item, 'indent') and item.indent is None:               
                item.indent = self.indent+self.innerIndent
             lines.append(str(item))
          text+='\n'.join(lines)+'\n'         
-         text+=indentStr+'}'
+         text+=indentStr+'}%s'%(tail)
       else:         
          text='{\n'
          lines=[]
