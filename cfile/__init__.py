@@ -115,6 +115,9 @@ class sequence:
       self.elements.append(elem)
       return self
    
+   def insert(self,index,elem):
+      self.elements.insert(index,elem)
+
    def extend(self,seq):
       if isinstance(seq, sequence):
          self.elements.extend(seq.elements)
@@ -141,6 +144,9 @@ class block:
 
    def append(self,elem):
       self.code.append(elem)
+
+   def insert(self,index,elem):
+      self.code.insert(index,elem)
 
    def extend(self,sequence):
       self.code.extend(sequence)
