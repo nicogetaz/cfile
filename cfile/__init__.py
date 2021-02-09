@@ -1,3 +1,4 @@
+import logging
 import os
 import copy
 
@@ -254,10 +255,14 @@ class function:
    """
    Creates a function
    """
-   def __init__(self, name, typename='int', static=0, const=0, pointer=0, classname="", params=None):
+   def __init__(self, name, typename='int', static=0, const=0, pointer=0, classname="", params=None, args=None):
       self.name=name
       self.typename=typename
       self.classname=classname
+      if args is not None:
+         logging.getLogger("cfile").warning("args parameter is deprecated! use params instead!")
+         if params is None:
+            params = args
       self.params=[] if params is None else list(params)
       if isinstance(pointer,int):
          self.pointer=pointer
@@ -277,6 +282,9 @@ class function:
          self.static=1 if static==True else 0
       else:
          raise ValueError('invalid static argument')
+   def add_arg(self, arg):
+      logging.getLogger("cfile").warning("add_arg function is deprecated on cfile.function! use add_param instead.")
+      return self.add_param(arg)
    def add_param(self, param):
       if not isinstance(param,(variable, fptr)):
          raise ValueError('expected variable or fptr object')
@@ -326,6 +334,9 @@ class fcall(object):
    def __init__(self,name, args=None):
       self.name=name
       self.args=[] if args is None else list(args)
+   def add_param(self, param):
+      logging.getLogger("cfile").warning("add_param function is deprecated on cfile.fcall! use add_arg instead.")
+      return self.add_arg(param)
    def add_arg(self, arg):
       if not isinstance(arg,str):
          raise ValueError('expected string object')
